@@ -20,12 +20,15 @@ const catResolver = {
     catsByOwner: async (_: unknown, userWithToken: UserIdWithToken) => {
       return await catModel.find({owner: userWithToken.id});
     },
-    catsByArea: async (_: unknown, locationInput: locationInput) => {
-      const bounds = rectangleBounds(
-        locationInput.topRight,
-        locationInput.bottomLeft
-      );
-      return await catModel.find({location: {$geoWithin: {$box: bounds}}});
+    catsByArea: async (_: unknown, location: locationInput) => {
+      const bounds = rectangleBounds(location.topRight, location.bottomLeft);
+      return await catModel.find({
+        location: {
+          $geoWithin: {
+            $geometry: bounds,
+          },
+        },
+      });
     },
   },
   Mutation: {

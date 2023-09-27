@@ -86,12 +86,13 @@ const userResolver = {
     },
     updateUser: async (
       _: unknown,
-      user: User,
+      user: {user: User},
       userWithToken: UserIdWithToken
     ) => {
+      if (!userWithToken.token) return null;
       const response = await fetch(`${process.env.AUTH_URL}/users`, {
         method: 'PUT',
-        body: JSON.stringify(user),
+        body: JSON.stringify(user.user),
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${userWithToken.token}`,
@@ -100,7 +101,7 @@ const userResolver = {
       if (!response.ok) {
         throw new GraphQLError(response.statusText);
       }
-      const updateUser = (await response.json()) as User;
+      const updateUser = (await response.json()) as LoginMessageResponse;
       return updateUser;
     },
     updateUserAsAdmin: async (
