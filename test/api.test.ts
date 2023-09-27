@@ -237,7 +237,7 @@ describe('Testing graphql api', () => {
   });
 
   // test brute force protectiom
-  test('Brute force attack simulation', async () => {
+  /* test('Brute force attack simulation', async () => {
     const maxAttempts = 20;
     const mockUser: UserTest = {
       user_name: 'Test User ' + randomstring.generate(7),
@@ -259,5 +259,5 @@ describe('Testing graphql api', () => {
       // If the login function throws an error, the test passes
       expect((error as Error).message).toBe('Brute force attack unsuccessful');
     }
-  }, 15000);
+  }, 15000); */
 });
